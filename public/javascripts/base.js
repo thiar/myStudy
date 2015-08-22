@@ -1,4 +1,5 @@
 var app = angular.module('myStudy', ['ngAnimate']);
+
 app.config(function($interpolateProvider) {
   $interpolateProvider.startSymbol('[[');
   $interpolateProvider.endSymbol(']]');

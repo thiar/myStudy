@@ -1,8 +1,3 @@
-var app = angular.module('myStudy', ['ngAnimate']);
-app.config(function($interpolateProvider) {
-  $interpolateProvider.startSymbol('[[');
-  $interpolateProvider.endSymbol(']]');
-})
 app.animation('.fold-animation', ['$animateCss', function($animateCss) {
   return {
     enter: function(element, doneFn) {
@@ -18,8 +13,8 @@ app.animation('.fold-animation', ['$animateCss', function($animateCss) {
     },
     leave: function(element, doneFn) {
       return $animateCss(element, {
-        addClass: 'animate-leave animate-leave-active',
-        removeClass: 'animate-enter animate-enter-active',
+        addClass: '',
+        removeClass: '',
         easing: 'ease-out',
         duration: 0.3 // one second
       });
@@ -72,6 +67,18 @@ app.controller('dashboard', function($scope,$location,$http) {
                     '</span>' +
 	                '</div>'  +
 		            '</div>'  +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="name">Color</label> ' +
+                    '<div class="col-md-4 input-group"> ' +
+                    '<select class="form-control" id="color" style="background-color:#F5AB35;color:white;">' +
+                    '<option value="#F5AB35" style="background-color:#F5AB35;">LIGHTNING YELLOW</option>' +
+                    '<option value="#6BB9F0" style="background-color:#6BB9F0;">MALIBU</option>' +
+                    '<option value="#EF4836" style="background-color:#EF4836;">FLAMINGO</option>' +
+                    '</select>' +
+                    '<span class="input-group-addon">' +
+                    '<span class="glyphicon glyphicon-tint"></span>' +
+                    '</div> ' +
+                    '</div> ' +
                     '</form> </div>  </div>'+
 	                '<script type="text/javascript">' +
 		            '$(function () {' +
@@ -79,6 +86,14 @@ app.controller('dashboard', function($scope,$location,$http) {
                     "format: 'DD/MM/YYYY'" +
 	                '});' +
 		            '});' +
+                    '$("#color").change(function(){' +
+                    'if($(this).val() == "#F5AB35"){' +
+                    '$("#color").css("background-color", "#F5AB35");}' +
+                    'if($(this).val() == "#6BB9F0"){' +
+                    '$("#color").css("background-color", "#6BB9F0");}' +
+                    'if($(this).val() == "#EF4836"){' +
+                    '$("#color").css("background-color", "#EF4836");}' +
+                    '});' +
 			        '</script>',
                 buttons: {
                     success: {
@@ -89,15 +104,17 @@ app.controller('dashboard', function($scope,$location,$http) {
                             var alias = $('#alias').val();
                             var description = $("#description").val()
                             var end = $('#time').val()
+                            var color = $('#color').val()
                             var course = {
                             	name : name,
                             	description : description,
                             	alias : alias,
-                            	end : end
+                            	end : end,
+                                color : color
                             }
                             console.log(course)
                             if(name == "" || end =="" || alias ==""){
-                            	bootbox.confirm("<i style='color:red' class='fa fa-warning fa-lg'></i><b style='color:red'> Error please fill Course name and End of Course</b>", function(result) {
+                            	bootbox.alert("<i style='color:red' class='fa fa-warning fa-lg'></i><b style='color:red'> Error please fill Course name and End of Course</b>", function(result) {
 								  
 								});	
                             }
@@ -116,18 +133,18 @@ app.controller('dashboard', function($scope,$location,$http) {
 	$scope.deleteCourse = function(course)
 	{
 		bootbox.dialog({
-		  message: "I am a custom dialog",
-		  title: "Custom title",
+		  message: "Your course will deleted",
+		  title: "Confirm Deletion",
 		  buttons: {
 		    success: {
-		      label: "cancel!",
+		      label: "cancel",
 		      className: "btn-primary",
 		      callback: function() {
 		        
 		      }
 		    },
 		    danger: {
-		      label: "Delete!",
+		      label: "Delete",
 		      className: "btn-danger",
 		      callback: function() {
 		        var index = $scope.allCourse.indexOf(course);
