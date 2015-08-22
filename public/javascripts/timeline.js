@@ -219,8 +219,8 @@ app.controller('timeline', function($scope,$location,$http) {
     }
     $scope.deleteEvent = function(event){
         bootbox.dialog({
-          message: "Confirm Delete",
-          title: "This will delete event permanently",
+          message: "This will delete event permanently",
+          title: "Confirm Delete",
           buttons: {
             success: {
               label: "Cancel",
