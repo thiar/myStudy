@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="myStudy">
+<head>
+	<title>Create New Presensi</title>
+	<script src="angular.min.js"></script>
+	<script src="angular-animate.min.js"></script>
+	<script src="createPresensi.js"></script>
+	<script src="jquery.min.js"></script>
+	<script src="moment.min.js"></script>
+	<script src="bootstrap.js"></script>
+	<script src="bootstrap-datetimepicker.js"></script>
+	<link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+
+</head>
+<body>
+	<div ng-controller="createPresensi">
+		<button type="button" ng-click="check()">clik</button>
+		<input type="text" ng-model="searchUser">
+		<select ng-init="angkatanFilter=angkatan[0].value" ng-options="item.value as item.label for item in angkatan" ng-model="angkatanFilter">
+		</select>
+		<br>
+		<label style="font-weight: normal;">
+				<input type="checkbox" ng-model="isCheckAll">Check All
+		</label>
+		<div ng-repeat="user in allUser| filter:angkatanFilter|filter:searchUser" class="fold-animation animate-enter animate-enter-active">
+			<label style="font-weight: normal;"	>
+				<input type="checkbox" ng-model="user.isCheck">{{user.nrp}}
+			</label>
+		</div>
+		
+		<div class="container">
+		    <div class="row">
+		        <div class='col-sm-6'>
+		            <div class="form-group">
+		                <div class='input-group date' id='datetimepicker3'>
+		                    <input id="time" type='text' class="form-control" />
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-time"></span>
+		                    </span>
+		                </div>
+		            </div>
+		        </div>
+		        <script type="text/javascript">
+		            $(function () {
+		                $('#datetimepicker3').datetimepicker({
+		                    format: 'HH:mm'
+		                });
+		            });
+		        </script>
+		    </div>
+		</div>
+	</div>
+</body>
+</html>
