@@ -1,0 +1,34 @@
+<script src="/javascripts/dashboard.js"></script>
+
+<div  ng-controller="dashboard">
+	<div class="row">
+		<div class="col-md-16">
+			<button class="col-md-3 container drop-shadow" ng-click="addCourse()" style="background-color:white;">
+				<h4>ADD NEW</h4>
+				<div class="jumbotron" style="background-color:#00B16A; ">
+					<div class="row">
+						<div class="col-md-4">
+						</div>
+						<div class="col-md-4">
+							<p><i class="fa fa-plus fa-2x"></i></p>
+						</div>
+						<div class="col-md-4">
+						</div>
+					</div>
+				</div>
+			</button>
+
+			<div class="col-md-3 container drop-shadow fold-animation" style="background-color:white;" ng-repeat="course in allCourse">
+				<div class="margin-bottom form-inline">
+					<button ng-click="deleteCourse(course)" class="btn btn-danger pull-right"><i class="fa fa-times fa-lg"></i></button>
+					<h4>[[course.alias]]</h4>
+				</div>
+				<button class="jumbotron" style="margin-bottom:10%;padding-right:35%;">
+					<label>End In</label>
+					<h4>[[course.end]]</h4>
+					
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
