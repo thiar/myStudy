@@ -69,7 +69,7 @@ router.post('/login', function(req, res, next) {
 router.get('/timeline', function(req, res, next) {
   if(req.session.login)
   {
-  	res.render('admin/timeline', { title: 'Timeline Course',login:true,isTimeline:true});
+  	res.render('admin/timeline', { title: 'Timeline Course',login:true,isTimeline:true,activeUser:req.session.user });
   }
   else
   {
