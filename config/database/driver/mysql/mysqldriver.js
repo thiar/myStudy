@@ -4,7 +4,7 @@ var connection = mysql.createPool({
   host     : '',
   user     : 'root',
   password : '',
-  database : 'mysql'
+  database : 'mystudy'
 });
 
 module.exports=connection;

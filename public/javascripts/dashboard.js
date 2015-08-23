@@ -22,13 +22,43 @@ app.animation('.fold-animation', ['$animateCss', function($animateCss) {
   }
 }]);
 app.controller('dashboard', function($scope,$location,$http) {
-	$scope.allUser =[{nrp:"5112100080",isCheck:false,isHide:false},{nrp:"5112100081",isCheck:false,isHide:false}
-	,{nrp:"5112100082",isCheck:false,isHide:false},
-	{nrp:"5112100083",isCheck:false,isHide:false},{nrp:"5112100084",isCheck:false,isHide:false},
-	{nrp:"5112100085",isCheck:false,isHide:false},{nrp:"5113100085",isCheck:false,isHide:false}]
+	
+    var socket = io.connect();
+    $scope.activeUser =""
 	$scope.allCourse = []
+    getCourseList();
+    function getCourseList()
+    {
+        socket.emit("getCourseList");
+    }
+    function addNewCourse(data)
+    {
+        socket.emit("addNewCourse",data);
+    }
+    socket.on("getCourseListResponse",function(data){
+        $scope.allCourse = []
+        for(i=0;i<data.length;i++)
+        {
+            var format_date = moment(data[i].END).format("DD/MM/YY")
+
+            data[i].END = format_date
+            $scope.allCourse.push(data[i])
+            console.log(format_date)
+        }
+        console.log($scope.allCourse)
+        $scope.$apply();
+    })
+    socket.on('changeCourseResponse',function(data){
+        window.location.href="/admin/timeline";
+    })
+    $scope.showTimeline = function(course)
+    {
+        var idCourse = course.IDCOURSE;
+        socket.emit("changeCourse",{id:idCourse});
+    }
 	$scope.addCourse = function()
 	{
+        
 		bootbox.dialog({
                 title: "Add new course",
                 message: '<div class="row">  ' +
@@ -106,22 +136,22 @@ app.controller('dashboard', function($scope,$location,$http) {
                             var end = $('#time').val()
                             var color = $('#color').val()
                             var course = {
-                            	name : name,
-                            	description : description,
-                            	alias : alias,
-                            	end : end,
-                                color : color
+                            	NAME : name,
+                            	DESCRIPTION : description,
+                            	ALIAS : alias,
+                            	END : end,
+                                COLOR : color
                             }
                             console.log(course)
                             if(name == "" || end =="" || alias ==""){
-                            	bootbox.alert("<i style='color:red' class='fa fa-warning fa-lg'></i><b style='color:red'> Error please fill Course name and End of Course</b>", function(result) {
+                            	bootbox.alert("<i style='color:red' class='fa fa-warning fa-lg'></i><b style='color:red'> Error please fill Requirement field</b>", function(result) {
 								  
 								});	
                             }
                             else
                             {
-                            	$scope.allCourse.push(course);
-                            	$scope.$apply();
+                                addNewCourse(course);
+                            	getCourseList();
                             }
                             
                         }

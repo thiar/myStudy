@@ -15,6 +15,7 @@
 	<script src="/javascripts/bootstrap.js"></script>
 	<script src="/javascripts/bootbox.min.js"></script>
 	<script src="/javascripts/bootstrap-datetimepicker.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 	
   </head>
   <body>
@@ -26,17 +27,30 @@
                     </button>
                     <a class="navbar-brand" href="#"><i class="fa fa-rocket fa-4"></i> myStudy</a>
                 </div><!-- navbar-header-->
- 
+                {{#if login}}
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
                                 <li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+
                             </ul>
+                            <div class="pull-right dropdown" >
+                                <button class="navbar-toggle collapse in btn btn-default btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user fa-lg"> {{activeUser}}</i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a  href="#">Preferences<i class="fa fa-cog fa-lg pull-right"></i></a></li>
+                                  <li class="divider"></li>
+                                  <li><a style="color:red" href="/admin/logout"><b>Logout<i class="fa fa-power-off fa-lg pull-right"></i></b></a></li>
+                                </ul>
+                            </div>
                 </div><!-- bs-example-navbar-collapse-1 -->
+                {{/ if}}
+                
     </nav>
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+                {{#if isDashboard}}
                 <li class="active">
                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
                        <ul class="nav-pills nav-stacked" style="list-style-type:none;">
@@ -67,6 +81,7 @@
                 <li>
                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>Contact</a>
                 </li>
+                {{/if}}
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->

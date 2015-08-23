@@ -22,16 +22,42 @@ app.animation('.fold-animation', ['$animateCss', function($animateCss) {
   }
 }]);
 app.controller('timeline', function($scope,$location,$http) {
-	$scope.activeCourse = {
-        name : "Sistem Operasi A",
-        description : "Praktikum Sistem Operasi kelas A",
-        alias : "Sisop A",
-        end : "10/11/2015",
-        color : "#F5AB35"
+	var socket = io.connect();
+    
+    getTimeline()
+    getEvent()
+    function getTimeline()
+    {
+        socket.emit('getTimeline');
     }
-
-    $scope.allTimeline =[];
+    function getEvent()
+    {
+        socket.emit('getEvent');
+    }
+    socket.on('getTimelineResponse',function(data){
+        $scope.activeCourse = data;
+        $scope.$apply();
+    })
+    socket.on('getEventResponse',function(data){
+        for(i=0;i<data.length;i++)
+        {
+            if(data[i].config !="")
+            {
+                data[i].config = JSON.parse(data[i].config)
+            }
+        }
+        $scope.allTimeline = data;
+        console.log($scope.allTimeline)
+        $scope.$apply();
+    })
+    socket.on('addEventResponse',function(data){
+        getEvent();
+    })
+    socket.on('updateEventResponse',function(data){
+        getEvent()
+    })
     $scope.addEvent = function(){
+        
         bootbox.dialog({
                 title: "Add new course",
                 message: '<div class="row">  ' +
@@ -107,8 +133,8 @@ app.controller('timeline', function($scope,$location,$http) {
                             }
                             else
                             {
-                                $scope.allTimeline.push(event);
-                                $scope.$apply();
+                                socket.emit('addEvent',event)
+                                
                             }
                             
                         }
@@ -207,6 +233,13 @@ app.controller('timeline', function($scope,$location,$http) {
                                     event.name = name
                                     event.description = description
                                     event.config = config
+                                    var data = {
+                                        id : event.idevent,
+                                        name: name,
+                                        description:description,
+                                        config: JSON.stringify(config)
+                                    }
+                                    socket.emit('updateEvent',data)
                                     $scope.$apply();
                                 }
                                 

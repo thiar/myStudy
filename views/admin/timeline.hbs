@@ -2,17 +2,17 @@
 <div ng-controller="timeline">
 	<div class="container">
 		<div class="jumbotron" style="background:[[activeCourse.color]];color:white;margin-right:10%;">
-		  <h1>{{activeCourse}}</h1>
-		  <h2>sisop</h2>
-		  <p>Description here</p>
+		  <h1>[[activeCourse.name]]</h1>
+		  <h2>[[activeCourse.alias]]</h2>
+		  <p>[[activeCourse.description]]</p>
 		</div>
 	</div>
-	<ul ng-if="activeCourse.color=='#F5AB35'" class="cbp2_tmtimeline" >
+	<ul ng-if="activeCourse.color=='#EF4836'" class="cbp3_tmtimeline" >
 		<li ng-repeat="event in allTimeline">
-			<time class="cbp2_tmtime" datetime="[[event.time]]"><span>[[event.date]]</span> <span>[[event.time]]</span></time>
-			<div ng-if="event.type=='presence'" class="cbp2_tmicon fa fa-user fa-lg"></div>
-			<div ng-if="event.type=='assignments'" class="cbp2_tmicon fa fa-file-text fa-lg"></div>
-			<div class="cbp2_tmlabel">
+			<time class="cbp3_tmtime" datetime="[[event.time]]"><span>[[event.date]]</span> <span>[[event.time]]</span></time>
+			<div ng-if="event.type=='presence'" class="cbp3_tmicon fa fa-user fa-lg"></div>
+			<div ng-if="event.type=='assignments'" class="cbp3_tmicon fa fa-file-text fa-lg"></div>
+			<div class="cbp3_tmlabel">
 				<form class="form-inline">
 				  <div class="form-group">
 				    <h2>[[event.name]]</h2>
@@ -29,8 +29,8 @@
 				</form>
 				<p>Type: [[event.type]]</p>
 				<p>Description: [[event.description]]</p>
-				<p ng-if="event.config===undefined"><b> you must configure this event</b></p>
-				<div ng-if="event.config!==undefined">
+				<p ng-if="event.config===undefined || event.config ==''"><b> you must configure this event</b></p>
+				<div ng-if="event.config!==undefined && event.config !=''">
 					<p>Presence Time: [[event.config.presenceTime]]</p>
 					<p>Allow Late : [[event.config.allowLate]]</p>
 					<p>Point: [[event.config.point]]</p>
