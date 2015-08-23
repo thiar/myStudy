@@ -892,15 +892,15 @@ the CSS classes below will be transitioned despite them being defined as regular
 padding: 0px;
 margin: 0px;
 position: fixed;
-right: -119px;
+right: -110px;
 top: 130px;
-width: 200px;
+width: 220px;
 }
 .sticky li {
 list-style-type: none;
 background-color: #333;
 color: #efefef;
-height: 43px;
+height: 75px;
 padding: 0px;
 margin: 0px 0px 1px 0px;
 -webkit-transition: all 0.25s ease-in-out;
@@ -932,5 +932,5 @@ margin-right: 10px;
 padding: 0px;
 margin: 0px;
 text-transform: uppercase;
-line-height: 43px;
+line-height: 75px;
 }

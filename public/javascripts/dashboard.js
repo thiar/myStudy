@@ -34,6 +34,7 @@ app.controller('dashboard', function($scope,$location,$http) {
     function addNewCourse(data)
     {
         socket.emit("addNewCourse",data);
+        
     }
     socket.on("getCourseListResponse",function(data){
         $scope.allCourse = []
@@ -47,6 +48,9 @@ app.controller('dashboard', function($scope,$location,$http) {
         }
         console.log($scope.allCourse)
         $scope.$apply();
+    })
+    socket.on("addNewCourseResponse",function(data){
+        getCourseList();
     })
     socket.on('changeCourseResponse',function(data){
         window.location.href="/admin/timeline";
@@ -151,7 +155,7 @@ app.controller('dashboard', function($scope,$location,$http) {
                             else
                             {
                                 addNewCourse(course);
-                            	getCourseList();
+                            	
                             }
                             
                         }

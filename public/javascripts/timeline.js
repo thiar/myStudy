@@ -147,7 +147,7 @@ app.controller('timeline', function($scope,$location,$http) {
         if(event.type=="presence")
         {
 
-
+            console.log(event.datetime)
             bootbox.dialog({
                     title: "Add new course",
                     message: '<div class="row">' +
@@ -169,6 +169,15 @@ app.controller('timeline', function($scope,$location,$http) {
                         '<span class="glyphicon glyphicon-text-background"></span>' +
                         '</div> ' +
                         '</div> ' +
+                        '<div class="form-group">' +
+                        '<label class="col-md-4 control-label" for="name">Event time</label> ' +
+                        '<div class="input-group date col-md-4 datetimepicker2" id="datetimepicker2">' +
+                        '<input id="datetime" type="text" class="form-control datetimepicker2" value="'+event.datetime+'"/>' +
+                        '<span class="input-group-addon">' +
+                        '<span class="glyphicon glyphicon-calendar"></span>' +
+                        '</span>' +
+                        '</div>'  +
+                        '</div>'  +
                         '<div class="form-group"> ' +
                         '<label class="col-md-4 control-label" for="name">Presence Point</label> ' +
                         '<div class="col-md-4 input-group"> ' +
@@ -204,6 +213,11 @@ app.controller('timeline', function($scope,$location,$http) {
                         "format: 'HH:mm'" +
                         '});' +
                         '});' +
+                        '$(function () {' +
+                        "$('.datetimepicker2').datetimepicker({" +
+                        "format: 'DD/MM/YY HH:mm'" +
+                        '});' +
+                        '});' +
                         '</script>',
                     buttons: {
                         success: {
@@ -214,6 +228,7 @@ app.controller('timeline', function($scope,$location,$http) {
                                 var alias = $('#alias').val();
                                 var description = $("#description").val()
                                 var time = $('#time').val()
+                                var datetime = $('#datetime').val()
                                 var point = $('#point').val()
                                 var allowLate = $('#lateOpt').val()
                                 
@@ -236,6 +251,7 @@ app.controller('timeline', function($scope,$location,$http) {
                                     var data = {
                                         id : event.idevent,
                                         name: name,
+                                        datetime:datetime,
                                         description:description,
                                         config: JSON.stringify(config)
                                     }
@@ -274,6 +290,10 @@ app.controller('timeline', function($scope,$location,$http) {
             }
           }
         });
+    }
+    $scope.detailEvent = function(event)
+    {
+        alert("not implemented yet")
     }
 
 });

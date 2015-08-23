@@ -7,6 +7,72 @@
 		  <p>[[activeCourse.description]]</p>
 		</div>
 	</div>
+	<ul ng-if="activeCourse.color=='#6BB9F0'" class="cbp_tmtimeline" >
+		<li ng-repeat="event in allTimeline">
+			<time class="cbp_tmtime" datetime="[[event.time]]"><span>[[event.date]]</span> <span>[[event.time]]</span></time>
+			<div ng-if="event.type=='presence'" class="cbp_tmicon fa fa-user fa-lg"></div>
+			<div ng-if="event.type=='assignments'" class="cbp_tmicon fa fa-file-text fa-lg"></div>
+			<div class="cbp_tmlabel">
+				<form class="form-inline">
+				  <div class="form-group">
+				    <h2>[[event.name]]</h2>
+				  </div>
+				  <div class="dropdown pull-right ">
+				    <button class="btn btn-default btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-bars fa-lg"></i>
+				    </button>
+				    <ul class="dropdown-menu">
+				      <li><a ng-click="configure(event)" href="#">Configure<i class="fa fa-cog fa-lg pull-right"></i></a></li>
+				      <li class="divider"></li>
+				      <li><a ng-click="deleteEvent(event)" style="color:red" href="#"><b>Delete<i class="fa fa-trash fa-lg pull-right"></i></b></a></li>
+				    </ul>
+				  </div>
+				</form>
+				<p>Type: [[event.type]]</p>
+				<p>Description: [[event.description]]</p>
+				<p ng-if="event.config===undefined || event.config ==''"><b> you must configure this event</b></p>
+				<div ng-if="event.config!==undefined && event.config !=''">
+					<p>Presence Time: [[event.config.presenceTime]]</p>
+					<p>Allow Late : [[event.config.allowLate]]</p>
+					<p>Point: [[event.config.point]]</p>
+					<p></p>
+					<button class="btn btn-default" ng-click="detailEvent(event)">Show Detail</button>
+				</div>
+			</div>
+		</li>
+	</ul>
+	<ul ng-if="activeCourse.color=='#F5AB35'" class="cbp2_tmtimeline" >
+		<li ng-repeat="event in allTimeline">
+			<time class="cbp2_tmtime" datetime="[[event.time]]"><span>[[event.date]]</span> <span>[[event.time]]</span></time>
+			<div ng-if="event.type=='presence'" class="cbp2_tmicon fa fa-user fa-lg"></div>
+			<div ng-if="event.type=='assignments'" class="cbp2_tmicon fa fa-file-text fa-lg"></div>
+			<div class="cbp2_tmlabel">
+				<form class="form-inline">
+				  <div class="form-group">
+				    <h2>[[event.name]]</h2>
+				  </div>
+				  <div class="dropdown pull-right ">
+				    <button class="btn btn-default btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-bars fa-lg"></i>
+				    </button>
+				    <ul class="dropdown-menu">
+				      <li><a ng-click="configure(event)" href="#">Configure<i class="fa fa-cog fa-lg pull-right"></i></a></li>
+				      <li class="divider"></li>
+				      <li><a ng-click="deleteEvent(event)" style="color:red" href="#"><b>Delete<i class="fa fa-trash fa-lg pull-right"></i></b></a></li>
+				    </ul>
+				  </div>
+				</form>
+				<p>Type: [[event.type]]</p>
+				<p>Description: [[event.description]]</p>
+				<p ng-if="event.config===undefined || event.config ==''"><b> you must configure this event</b></p>
+				<div ng-if="event.config!==undefined && event.config !=''">
+					<p>Presence Time: [[event.config.presenceTime]]</p>
+					<p>Allow Late : [[event.config.allowLate]]</p>
+					<p>Point: [[event.config.point]]</p>
+					<p></p>
+					<button class="btn btn-default" ng-click="detailEvent(event)">Show Detail</button>
+				</div>
+			</div>
+		</li>
+	</ul>
 	<ul ng-if="activeCourse.color=='#EF4836'" class="cbp3_tmtimeline" >
 		<li ng-repeat="event in allTimeline">
 			<time class="cbp3_tmtime" datetime="[[event.time]]"><span>[[event.date]]</span> <span>[[event.time]]</span></time>
@@ -35,6 +101,7 @@
 					<p>Allow Late : [[event.config.allowLate]]</p>
 					<p>Point: [[event.config.point]]</p>
 					<p></p>
+					<button class="btn btn-default" ng-click="detailEvent(event)">Show Detail</button>
 				</div>
 			</div>
 		</li>
@@ -43,7 +110,7 @@
 	<div class="sticky-container">
 		<ul class="sticky">
 			<li class="btn-default" ng-click="addEvent()"> 
-				<img style="color:green;" width="32" height="32" title="" alt="" src="/icon/add.svg" />
+				<img style="color:green;" width="64" height="64" title="" alt="" src="/icon/add.svg" />
 				<p>Add Event</p>
 			</li>
 		</ul>

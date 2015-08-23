@@ -67,7 +67,16 @@ router.post('/login', function(req, res, next) {
   
 });
 router.get('/timeline', function(req, res, next) {
-  res.render('admin/timeline', { title: 'Timeline Course',login:true,isTimeline:true,activeCourse:"12" });
+  if(req.session.login)
+  {
+  	res.render('admin/timeline', { title: 'Timeline Course',login:true,isTimeline:true});
+  }
+  else
+  {
+  	res.redirect('/admin/login');
+  }
+  
+
 });
 
 router.post('/addCourse', function(req, res, next) {

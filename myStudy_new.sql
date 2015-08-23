@@ -53,20 +53,15 @@ CREATE TABLE IF NOT EXISTS `course` (
   `end` datetime DEFAULT NULL,
   `color` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idcourse`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mystudy.course: ~8 rows (approximately)
+-- Dumping data for table mystudy.course: ~3 rows (approximately)
 DELETE FROM `course`;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
 INSERT INTO `course` (`idcourse`, `name`, `description`, `alias`, `start`, `end`, `color`) VALUES
-	(1, 'a', '', 'a', '2015-08-23 15:41:34', '2015-08-23 00:00:00', '#F5AB35'),
-	(2, 'sistem operasi', 'kuliah sistem operasi', 'sisop', '2015-08-23 15:52:19', '2015-08-23 15:52:19', '#eada1'),
-	(3, 'sistem operasi', 'kuliah sistem operasi', 'sisop', '2015-08-23 15:52:24', '2015-08-23 15:52:24', '#eada1'),
-	(4, 'sistem operasi', 'kuliah sistem operasi', 'sisop', '2015-08-23 15:53:14', '2015-08-23 15:53:14', '#eada1'),
-	(5, 'sistem operasi', 'kuliah sistem operasi', 'sisop', '2015-08-23 15:53:56', '2015-08-23 15:53:56', '#eada1'),
-	(6, 'sistem operasi', 'kuliah sistem operasi', 'sisop', '2015-08-23 15:54:00', '2015-08-23 15:54:00', '#eada1'),
-	(7, 'sistem operasi', 'kuliah sistem operasi', 'sisop', '2015-08-23 15:54:01', '2015-08-23 15:54:01', '#eada1'),
-	(8, 'Basis Data', 'praktikum basis data 2015', 'basdat A', '2015-08-23 16:25:27', '2015-12-31 00:00:00', '#EF4836');
+	(1, 'Matematika Informatika', 'kuliah matematika informatika semester ganjil', 'matfor A', '2015-08-23 19:35:37', '2015-08-23 00:00:00', '#6BB9F0'),
+	(2, 'Sistem Terdistribusi', 'praktikum Sister Terdistribusi', 'sister A', '2015-08-23 19:38:28', '2015-12-26 00:00:00', '#F5AB35'),
+	(3, 'Basis Data A', 'praktikum basis data kelas A', 'basdat A', '2015-08-23 19:52:44', '2015-08-23 00:00:00', '#EF4836');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 
 
@@ -83,12 +78,13 @@ CREATE TABLE IF NOT EXISTS `event` (
   KEY `fk_event_course1_idx` (`course_idcourse`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table mystudy.event: ~1 rows (approximately)
+-- Dumping data for table mystudy.event: ~3 rows (approximately)
 DELETE FROM `event`;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
 INSERT INTO `event` (`idevent`, `name`, `description`, `type`, `time`, `config`, `course_idcourse`) VALUES
-	(1, 'praktikum modul 1', 'daftar hadir praktikum modul 1', 'presence', '2015-08-27 17:27:00', '{"presenceTime":"18:55","point":"1","allowLate":"yes"}', 8),
-	(3, 'praktikum modul 1', 'daftar hadir praktikum modul 1', 'presence', '2015-08-31 18:23:00', '{"presenceTime":"18:55","point":"1","allowLate":"yes"}', 8);
+	(1, 'pertemuan 1', 'kuliah kali ini membahas dasar-dasar matemati', 'presence', '2015-08-24 07:30:00', '{"presenceTime":"07:30","point":"1","allowLate":"no"}', 1),
+	(2, 'praktikum 1', 'absensi praktikum 1', 'presence', '2015-08-23 19:52:00', '', 2),
+	(3, 'praktikum modul 1', 'praktikum modul pertama basis data', 'presence', '2015-08-23 19:53:00', '', 3);
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 
 
@@ -132,7 +128,7 @@ DELIMITER ;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEvent`(IN `idCourse` VARCHAR(50))
 BEGIN
-	SELECT color,idcourse,event.name,idevent,event.description,type,DATE_FORMAT(time, '%d/%m/%y') date,DATE_FORMAT(time, '%H:%i') time,config FROM  COURSE JOIN EVENT ON COURSE.IDCOURSE=EVENT.COURSE_IDCOURSE WHERE COURSE.IDCOURSE = idCourse;
+	SELECT color,idcourse,event.name,idevent,event.description,type,DATE_FORMAT(time, '%d/%m/%y') date,DATE_FORMAT(time, '%d/%m/%y %H:%i') datetime,DATE_FORMAT(time, '%H:%i') time,config FROM  COURSE JOIN EVENT ON COURSE.IDCOURSE=EVENT.COURSE_IDCOURSE WHERE COURSE.IDCOURSE = idCourse;
 END//
 DELIMITER ;
 
@@ -194,26 +190,21 @@ CREATE TABLE IF NOT EXISTS `teachercourse` (
   KEY `fk_teacher_has_course_teacher1_idx` (`teacher_idteacher`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table mystudy.teachercourse: ~8 rows (approximately)
+-- Dumping data for table mystudy.teachercourse: ~3 rows (approximately)
 DELETE FROM `teachercourse`;
 /*!40000 ALTER TABLE `teachercourse` DISABLE KEYS */;
 INSERT INTO `teachercourse` (`teacher_idteacher`, `course_idcourse`) VALUES
 	('5112100083', 1),
 	('5112100083', 2),
-	('5112100083', 3),
-	('5112100083', 4),
-	('5112100083', 5),
-	('5112100083', 6),
-	('5112100083', 7),
-	('5112100083', 8);
+	('5112100083', 3);
 /*!40000 ALTER TABLE `teachercourse` ENABLE KEYS */;
 
 
 -- Dumping structure for procedure mystudy.updateEvent
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEvent`(IN `name` VARCHAR(50), IN `description` VARCHAR(50), IN `config` VARCHAR(100), IN `idEvent` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEvent`(IN `name` VARCHAR(50), IN `description` VARCHAR(50), IN `config` VARCHAR(100), IN `timeEvent` DATETIME, IN `idEvent` INT)
 BEGIN
-	UPDATE EVENT SET NAME = name,DESCRIPTION=description,CONFIG=config WHERE IDEVENT = idEvent;
+	UPDATE EVENT SET NAME = name,DESCRIPTION=description,CONFIG=config,time=timeEvent WHERE event.idevent = idEvent;
 END//
 DELIMITER ;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

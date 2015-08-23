@@ -67,8 +67,8 @@ module.exports.addEvent = function(idCOurse,name,description,type,time,config,fn
 						}
 					);
 				}
-module.exports.updateEventConfig = function(name,description,config,idEvent,fn) {
-					driver.query("call updateEvent('"+name+"','"+description+"','"+config+"','"+idEvent+"')",function(err, rows, fields) {
+module.exports.updateEventConfig = function(name,description,config,datetime,idEvent,fn) {
+					driver.query("call updateEvent('"+name+"','"+description+"','"+config+"','"+datetime+"','"+idEvent+"')",function(err, rows, fields) {
 				  			if (err) throw err;
 				  			fn(rows)
 						}

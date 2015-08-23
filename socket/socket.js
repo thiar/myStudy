@@ -11,7 +11,7 @@ module.exports.listen = function(server,app){
     	socket.emit('news',{status:'connection'})
     	socket.emit('newLogin',{status:'connection'})
     	socket.on('sendEvent',function(data){
-    		console.log(socket.handshake.session.user)
+
     	})
     	socket.on('getCourseList',function(data){
     		admin_model.getCourseList(socket.handshake.session.userId,function(rows){
@@ -22,16 +22,16 @@ module.exports.listen = function(server,app){
     		var start = moment().format("YYYY-MM-DD HH:mm:ss");
     		var end = moment(data.END,"DD/MM/YYYY")
     		admin_model.addCourse(data.NAME,data.DESCRIPTION,data.ALIAS,start,end.format("YYYY-MM-DD HH:mm:ss"),data.COLOR,socket.handshake.session.userId,function(rows){
-    			
+    			socket.emit('addNewCourseResponse');
     		})
     	})
     	socket.on('changeCourse',function(data){
     		socket.handshake.session.activeCourse = data.id;
-    		console.log(socket.handshake.session)
+
     		socket.emit('changeCourseResponse')
     	})
     	socket.on('getTimeline',function(data){
-    		console.log(socket.handshake.session)
+
     		admin_model.getActiveCourse(socket.handshake.session.activeCourse,function(rows){
     			console.log(rows)
     			socket.emit('getTimelineResponse',rows[0][0])
@@ -49,8 +49,11 @@ module.exports.listen = function(server,app){
     		})
     	})
     	socket.on('updateEvent',function(data){
-    		admin_model.updateEventConfig(data.name,data.description,data.config,data.idevent,function(rows){
+    		var date = moment(data.datetime,"DD/MM/YYYY HH:mm").format("YYYY-MM-DD HH:mm:ss");
+    		
+    		admin_model.updateEventConfig(data.name,data.description,data.config,date,data.id,function(rows){
     			socket.emit('updateEventResponse')
+    			console.log(rows)
     		})
     	})
     })
