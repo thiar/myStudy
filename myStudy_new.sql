@@ -17,7 +17,7 @@ USE `mystudy`;
 
 -- Dumping structure for procedure mystudy.addCourse
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addCourse`(IN `name` VARCHAR(50), IN `description` VARCHAR(50), IN `alias` VARCHAR(50), IN `start` DATETIME, IN `end` DATETIME, IN `color` VARCHAR(50), IN `teacherId` VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addCourse`(IN `name` VARCHAR(50), IN `description` VARCHAR(200), IN `alias` VARCHAR(50), IN `start` DATETIME, IN `end` DATETIME, IN `color` VARCHAR(50), IN `teacherId` VARCHAR(50))
 BEGIN
 	INSERT INTO COURSE(name,description,alias,start,end,color) VALUES(name,description,alias,start,end,color);
 	INSERT INTO TEACHERCOURSE VALUES(TEACHERID,(SELECT IDCOURSE FROM COURSE ORDER BY IDCOURSE DESC LIMIT 1));
@@ -27,7 +27,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure mystudy.addEvent
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addEvent`(IN `idCourse` VARCHAR(50), IN `name` VARCHAR(50), IN `description` VARCHAR(50), IN `type` VARCHAR(50), IN `time` DATETIME, IN `config` VARCHAR(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addEvent`(IN `idCourse` VARCHAR(50), IN `name` VARCHAR(50), IN `description` VARCHAR(200), IN `type` VARCHAR(50), IN `time` DATETIME, IN `config` VARCHAR(100))
 BEGIN
 	INSERT INTO EVENT(NAME,DESCRIPTION,TYPE,TIME,CONFIG,COURSE_IDCOURSE) VALUES(name,description,type,time,config,idCOurse);
 END//
@@ -47,7 +47,7 @@ DELIMITER ;
 CREATE TABLE IF NOT EXISTS `course` (
   `idcourse` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
-  `description` varchar(95) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
   `alias` varchar(45) DEFAULT NULL,
   `start` datetime DEFAULT NULL,
   `end` datetime DEFAULT NULL,
@@ -69,7 +69,7 @@ INSERT INTO `course` (`idcourse`, `name`, `description`, `alias`, `start`, `end`
 CREATE TABLE IF NOT EXISTS `event` (
   `idevent` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
   `time` datetime DEFAULT NULL,
   `config` varchar(100) DEFAULT NULL,
@@ -202,7 +202,7 @@ INSERT INTO `teachercourse` (`teacher_idteacher`, `course_idcourse`) VALUES
 
 -- Dumping structure for procedure mystudy.updateEvent
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEvent`(IN `name` VARCHAR(50), IN `description` VARCHAR(50), IN `config` VARCHAR(100), IN `timeEvent` DATETIME, IN `idEvent` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEvent`(IN `name` VARCHAR(50), IN `description` VARCHAR(200), IN `config` VARCHAR(100), IN `timeEvent` DATETIME, IN `idEvent` INT)
 BEGIN
 	UPDATE EVENT SET NAME = name,DESCRIPTION=description,CONFIG=config,time=timeEvent WHERE event.idevent = idEvent;
 END//
