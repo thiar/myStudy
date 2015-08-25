@@ -58,7 +58,7 @@ app.controller('dashboard', function($scope,$location,$http) {
     $scope.showTimeline = function(course)
     {
         var idCourse = course.IDCOURSE;
-        socket.emit("changeCourse",{id:idCourse});
+        socket.emit("changeCourse",{id:idCourse,alias:course.ALIAS});
     }
 	$scope.addCourse = function()
 	{

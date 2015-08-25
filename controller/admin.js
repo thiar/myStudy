@@ -18,7 +18,14 @@ router.get('/', function(req, res, next) {
 router.get('/dashboard', function(req, res, next) {
   if(req.session.login)
   {
-  	res.render('admin/dashboard', { title: 'dashboard',isDashboard:true,login:true,activeUser:req.session.user });
+    var pageVar ={
+      title: 'dashboard',
+      isDashboard:true,
+      reqFirst:true,
+      login:true,
+      activeUser:req.session.user 
+    }
+  	res.render('admin/dashboard',pageVar);
   	io.sendEvent('newLogin',{user:req.session.user},globalIO)
   }
   else
@@ -69,7 +76,17 @@ router.post('/login', function(req, res, next) {
 router.get('/timeline', function(req, res, next) {
   if(req.session.login)
   {
-  	res.render('admin/timeline', { title: 'Timeline Course',login:true,isTimeline:true,activeUser:req.session.user });
+    var pageVar = { 
+      title: 'Timeline Course',
+      login:true,
+      isTimeline:true,
+      reqFirst:true,
+      reqSecond:true,
+      isSecond:true,
+      activeUser:req.session.user,
+      label:req.session.activeAlias 
+    }
+  	res.render('admin/timeline',pageVar );
   }
   else
   {

@@ -26,6 +26,7 @@
                       <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
                     </button>
                     <a class="navbar-brand" href="#"><i class="fa fa-rocket fa-4"></i> myStudy</a>
+
                 </div><!-- navbar-header-->
                 {{#if login}}
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -44,8 +45,10 @@
                             </div>
                 </div><!-- bs-example-navbar-collapse-1 -->
                 {{/ if}}
+
                 
     </nav>
+
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -88,6 +91,21 @@
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper">
+            
+            <ol class="breadcrumb">
+              <li><a href="#">Home</a></li>
+              {{#if isDashboard}}
+              <li class="active">dashboard</li>
+              {{else}}
+              {{# if reqFirst}}
+              <li><a href="/admin/dashboard">dashboard</a></li>
+              {{/ if}}
+              {{/ if}}
+              {{# if reqSecond}}
+              <li class="active">{{label}}</li>
+              {{/ if}}
+            </ol>
+
     		{{{body}}}
 		</div>
 		<script type="text/javascript">

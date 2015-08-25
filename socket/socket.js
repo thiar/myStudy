@@ -27,13 +27,12 @@ module.exports.listen = function(server,app){
     	})
     	socket.on('changeCourse',function(data){
     		socket.handshake.session.activeCourse = data.id;
-
+            socket.handshake.session.activeAlias = data.alias;
     		socket.emit('changeCourseResponse')
     	})
     	socket.on('getTimeline',function(data){
 
     		admin_model.getActiveCourse(socket.handshake.session.activeCourse,function(rows){
-    			console.log(rows)
     			socket.emit('getTimelineResponse',rows[0][0])
     		})
     	})
@@ -53,7 +52,6 @@ module.exports.listen = function(server,app){
     		
     		admin_model.updateEventConfig(data.name,data.description,data.config,date,data.id,function(rows){
     			socket.emit('updateEventResponse')
-    			console.log(rows)
     		})
     	})
     })
