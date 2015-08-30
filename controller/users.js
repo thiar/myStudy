@@ -1,12 +1,72 @@
 var express = require('express');
 var router = express.Router();
-
+var users_model = require('../model/users_model');
 /* GET users listing. */
+router.get('/home', function(req, res, next) {
+  if(req.session.userlogin)
+  {
+  	var pageVar ={
+      title: 'dashboard',
+      isHome:true,
+      reqFirst:true,
+      userlogin:true,
+      activeUser:req.session.user 
+    }
+  	res.render('users/home',pageVar);
+  }
+  else
+  {
+  	res.redirect('/users/login');
+  }
+
+});
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  if(req.session.userlogin)
+  {
+  	res.redirect('/users/home');
+  }
+  else
+  {
+  	res.redirect('/users/login');
+  }
+});
+router.get('/logout', function(req, res, next) {
+  req.session.destroy(function(err) {
+    // cannot access session here
+  })
+  res.render('users/login');  
 });
 router.get('/login', function(req, res, next) {
-  res.send('login page');
+  if(req.session.userlogin)
+  {
+  	res.redirect('/admin/dashboard');
+  }
+  else
+  {
+	res.render('users/login',{title:'login page'});
+  }
+  
+});
+router.post('/login', function(req, res, next) {
+  var user =  req.body.user;
+  var pass = req.body.password;
+  users_model.auth(user,pass,function(rows){
+  	
+  	if(rows.login)
+  	{
+  		console.log('login')
+  		var sess = req.session;
+  		sess.userlogin = true;
+  		sess.user = rows[0][0].name
+  		sess.userId = user
+  		sess.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  		res.redirect('/users/');
+  	}
+  	else
+  	{
+  		res.render('users/login', { title: 'Login',loginfailed: true });
+  	}
+  });
 });
 
 
