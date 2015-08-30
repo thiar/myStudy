@@ -104,7 +104,7 @@ router.post('/login', function(req, res, next) {
   	}
   	else
   	{
-  		res.redirect('/admin/login?login=false');
+  		res.render('admin/login', { title: 'Login',loginfailed: true });
   	}
   })
   

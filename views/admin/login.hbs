@@ -1,3 +1,8 @@
+{{#if loginfailed}}
+<div class="alert alert-danger">
+  <strong>Login Failed!</strong> Please check username and password.
+</div>
+{{/ if}}
 <form method="post" action="/admin/login">
   <div class="form-group">
     <label for="exampleInputEmail1">username</label>
