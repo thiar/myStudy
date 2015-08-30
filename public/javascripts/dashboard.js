@@ -53,7 +53,7 @@ app.controller('dashboard', function($scope,$location,$http) {
         getCourseList();
     })
     socket.on('changeCourseResponse',function(data){
-        window.location.href="/admin/timeline";
+        window.location.href="/admin/course/timeline";
     })
     $scope.showTimeline = function(course)
     {

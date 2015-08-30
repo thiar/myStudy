@@ -26,6 +26,9 @@ app.controller('timeline', function($scope,$location,$http) {
     
     getTimeline()
     getEvent()
+    $scope.studentList = function(){
+        window.location.href="/admin/course/studentlist";
+    }
     function getTimeline()
     {
         socket.emit('getTimeline');
@@ -291,9 +294,9 @@ app.controller('timeline', function($scope,$location,$http) {
           }
         });
     }
-    $scope.detailEvent = function(event)
-    {
+    $scope.detailEvent = function(event){
         alert("not implemented yet")
     }
+    
 
 });

@@ -34,6 +34,15 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure mystudy.addStudent
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addStudent`(IN `idstudent` VARCHAR(50), IN `idcourse` VARBINARY(50))
+BEGIN
+	INSERT INTO STUDENTCOURSE VALUES(IDSTUDENT,IDCOURSE);
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure mystudy.auth
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `auth`(IN `user` VARCHAR(50), IN `pass` VARCHAR(50))
@@ -83,7 +92,7 @@ DELETE FROM `event`;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
 INSERT INTO `event` (`idevent`, `name`, `description`, `type`, `time`, `config`, `course_idcourse`) VALUES
 	(1, 'pertemuan 1', 'kuliah kali ini membahas dasar-dasar matemati', 'presence', '2015-08-24 07:30:00', '{"presenceTime":"07:30","point":"1","allowLate":"no"}', 1),
-	(2, 'praktikum 1', 'absensi praktikum 1', 'presence', '2015-08-23 19:52:00', '', 2),
+	(2, 'praktikum 1', 'absensi praktikum 1', 'presence', '2015-08-23 19:52:00', '{"presenceTime":"19:52","point":"1","allowLate":"yes"}', 2),
 	(3, 'praktikum modul 1', 'praktikum modul pertama basis data', 'presence', '2015-08-23 19:53:00', '', 3);
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 
@@ -133,6 +142,33 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure mystudy.getStudentList
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getStudentList`(IN `IdCourse` INT)
+BEGIN
+	SELECT nrp,name FROM STUDENTCOURSE JOIN STUDENT ON STUDENTCOURSE.student_nrp = STUDENT.nrp WHERE STUDENTCOURSE.course_idcourse = IdCourse;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure mystudy.getStudentNotList
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getStudentNotList`(IN `idcourse` INT)
+BEGIN
+	SELECT student.nrp,student.name FROM STUDENT LEFT JOIN (SELECT nrp,name FROM STUDENTCOURSE JOIN STUDENT ON STUDENT.NRP = STUDENTCOURSE.STUDENT_NRP WHERE STUDENTCOURSE.COURSE_IDCOURSE=IDCOURSE) as FILTER_TABLE ON FILTER_TABLE.NRP = STUDENT.NRP WHERE FILTER_TABLE.NRP IS NULL;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure mystudy.removeStudent
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `removeStudent`(IN `idstudent` VARCHAR(50), IN `idcourse` VARCHAR(50))
+BEGIN
+	DELETE FROM STUDENTCOURSE WHERE STUDENTCOURSE.STUDENT_NRP = IDSTUDENT AND STUDENTCOURSE.COURSE_IDCOURSE = IDCOURSE;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for table mystudy.student
 CREATE TABLE IF NOT EXISTS `student` (
   `nrp` varchar(25) NOT NULL,
@@ -144,9 +180,13 @@ CREATE TABLE IF NOT EXISTS `student` (
   PRIMARY KEY (`nrp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table mystudy.student: ~0 rows (approximately)
+-- Dumping data for table mystudy.student: ~3 rows (approximately)
 DELETE FROM `student`;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` (`nrp`, `name`, `angkatan`, `data`, `picture`, `pass`) VALUES
+	('5113100016', 'novita', NULL, NULL, NULL, NULL),
+	('5113100020', 'setyo', NULL, NULL, NULL, NULL),
+	('5113100022', 'uul', NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 
 
@@ -159,9 +199,11 @@ CREATE TABLE IF NOT EXISTS `studentcourse` (
   KEY `fk_student_has_course_student_idx` (`student_nrp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table mystudy.studentcourse: ~0 rows (approximately)
+-- Dumping data for table mystudy.studentcourse: ~4 rows (approximately)
 DELETE FROM `studentcourse`;
 /*!40000 ALTER TABLE `studentcourse` DISABLE KEYS */;
+INSERT INTO `studentcourse` (`student_nrp`, `course_idcourse`) VALUES
+	('5113100016', 1);
 /*!40000 ALTER TABLE `studentcourse` ENABLE KEYS */;
 
 
@@ -173,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   PRIMARY KEY (`idteacher`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table mystudy.teacher: ~1 rows (approximately)
+-- Dumping data for table mystudy.teacher: ~0 rows (approximately)
 DELETE FROM `teacher`;
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
 INSERT INTO `teacher` (`idteacher`, `name`, `pass`) VALUES
@@ -190,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `teachercourse` (
   KEY `fk_teacher_has_course_teacher1_idx` (`teacher_idteacher`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table mystudy.teachercourse: ~3 rows (approximately)
+-- Dumping data for table mystudy.teachercourse: ~2 rows (approximately)
 DELETE FROM `teachercourse`;
 /*!40000 ALTER TABLE `teachercourse` DISABLE KEYS */;
 INSERT INTO `teachercourse` (`teacher_idteacher`, `course_idcourse`) VALUES

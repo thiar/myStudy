@@ -54,6 +54,28 @@ module.exports.listen = function(server,app){
     			socket.emit('updateEventResponse')
     		})
     	})
+        socket.on('getStudentList',function(data){
+            admin_model.getStudentList(socket.handshake.session.activeCourse,function(rows){
+                socket.emit('getStudentListResponse',rows[0]);
+            })
+        })
+        socket.on('getStudentNotList',function(data){
+            admin_model.getStudentNotList(socket.handshake.session.activeCourse,function(rows){
+                socket.emit('getStudentNotListResponse',rows[0]);
+            })
+        })
+        socket.on('addStudentToCourse',function(data){
+
+            admin_model.addStudentToCourse(data.nrp,socket.handshake.session.activeCourse,function(rows){
+                socket.emit('addStudentToCourseResponse');
+            })
+        })
+        socket.on('removeStudentFromCourse',function(data){
+
+            admin_model.removeStudentFromCourse(data.nrp,socket.handshake.session.activeCourse,function(rows){
+                socket.emit('removeStudentFromCourseResponse');
+            })
+        })
     })
     return io
 }

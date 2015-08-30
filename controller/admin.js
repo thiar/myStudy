@@ -4,14 +4,50 @@ var http= require('http');
 var io = require('../socket/socket.js')
 
 var admin_model = require('../model/admin_model');
-router.get('/', function(req, res, next) {
+router.get('/home', function(req, res, next) {
   if(req.session.login)
   {
-  	res.redirect('/admin/dashboard');
+  	var pageVar ={
+      title: 'dashboard',
+      isHome:true,
+      reqFirst:true,
+      login:true,
+      activeUser:req.session.user 
+    }
+  	res.render('admin/home',pageVar);
   }
   else
   {
   	res.redirect('/admin/login');
+  }
+
+});
+router.get('/', function(req, res, next) {
+  if(req.session.login)
+  {
+  	res.redirect('/admin/home');
+  }
+  else
+  {
+  	res.redirect('/admin/login');
+  }
+
+});
+router.get('/course/studentlist', function(req, res, next) {
+  if(req.session.login)
+  {
+    var pageVar ={
+      title: 'dashboard',
+      isDashboard:true,
+      reqFirst:true,
+      login:true,
+      activeUser:req.session.user 
+    }
+    res.render('admin/studentlist',pageVar);
+  }
+  else
+  {
+    res.redirect('/admin/login');
   }
 
 });
@@ -73,7 +109,7 @@ router.post('/login', function(req, res, next) {
   })
   
 });
-router.get('/timeline', function(req, res, next) {
+router.get('/course/timeline', function(req, res, next) {
   if(req.session.login)
   {
     var pageVar = { 

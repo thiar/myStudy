@@ -1,0 +1,69 @@
+<script src="/javascripts/studentlist.js"></script>
+<div ng-controller="studentlist">
+	<div class="container">
+		<div class="jumbotron" style="background:[[activeCourse.color]];color:white;margin-right:10%;">
+		  <h1>[[activeCourse.name]]</h1>
+		  <h2>[[activeCourse.alias]]</h2>
+		  <p>[[activeCourse.description]]</p>
+		</div>
+	</div>
+	<div>
+		<div class="col-md-7 container">
+
+			<div class="jumbotron" style="background:[[activeCourse.color]];color:white;">
+				<div class="form-group has-feedback" >
+	        		<label for="search" class="sr-only">Search</label>
+	        		<input ng-model="searchOldStudent"type="text" class="form-control" name="search" id="search" placeholder="search">
+	          		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+	        	</div>
+				<div >
+					<table class="table">
+					    <thead>
+					      <tr>
+					        <th>NRP</th>
+					        <th>Name</th>
+					        <th>Action</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr ng-repeat="student in studentlist | filter:searchOldStudent">
+					        <td>[[student.nrp]]</td>
+					        <td>[[student.name]]</td>
+					        <td><button ng-click="removeStudentFromCourse(student.nrp)" class="btn btn-dangger" style="background:#D91E18"><i class="fa fa-times fa-lg"></i> Remove</button></td>
+					      </tr>
+					    </tbody>
+				    </table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5 container">
+			<div class="jumbotron" style="background:[[activeCourse.color]];color:white;">
+				<div class="form-group has-feedback" >
+	        		<label for="search" class="sr-only">Search</label>
+	        		<input ng-model="searchNewStudent"type="text" class="form-control" name="search" id="search" placeholder="search">
+	          		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+	        	</div>
+				<div >
+					<table class="table">
+					    <thead>
+					      <tr>
+					        <th>Action</th>
+					        <th>NRP</th>
+					        <th>Name</th>
+					        
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr ng-repeat="student in studentnotlist | filter:searchNewStudent">
+					        <td><button ng-click="addStudentToCourse(student.nrp)"class="btn btn-dangger" style="background:#26A65B"><i class="fa fa-plus fa-lg"></i> Add</button></td>
+					        <td>[[student.nrp]]</td>
+					        <td>[[student.name]]</td>
+					        
+					      </tr>
+					    </tbody>
+				    </table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
