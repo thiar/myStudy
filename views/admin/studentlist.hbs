@@ -5,17 +5,25 @@
 		  <h1>[[activeCourse.name]]</h1>
 		  <h2>[[activeCourse.alias]]</h2>
 		  <p>[[activeCourse.description]]</p>
+		  <div >
+		  	<br>
+		  	<span><i class="fa fa-users fa-lg"></i>  [[studentlist.length]]</span>
+		  </div>
 		</div>
 	</div>
 	<div>
 		<div class="col-md-7 container">
 
 			<div class="jumbotron" style="background:[[activeCourse.color]];color:white;">
+				
 				<div class="form-group has-feedback" >
 	        		<label for="search" class="sr-only">Search</label>
 	        		<input ng-model="searchOldStudent"type="text" class="form-control" name="search" id="search" placeholder="search">
-	          		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+	          		<span style="color:black"class="glyphicon glyphicon-search form-control-feedback"></span>
 	        	</div>
+	        	<div> 
+					<span class="pull-right">student : [[studentlist.length]]</span>
+				</div>
 				<div >
 					<table class="table">
 					    <thead>
@@ -41,7 +49,7 @@
 				<div class="form-group has-feedback" >
 	        		<label for="search" class="sr-only">Search</label>
 	        		<input ng-model="searchNewStudent"type="text" class="form-control" name="search" id="search" placeholder="search">
-	          		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+	          		<span style="color:black"class="glyphicon glyphicon-search form-control-feedback"></span>
 	        	</div>
 				<div >
 					<table class="table">

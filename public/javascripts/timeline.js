@@ -26,6 +26,7 @@ app.controller('timeline', function($scope,$location,$http) {
     
     getTimeline()
     getEvent()
+    getStudentList()
     $scope.studentList = function(){
         window.location.href="/admin/course/studentlist";
     }
@@ -37,6 +38,13 @@ app.controller('timeline', function($scope,$location,$http) {
     {
         socket.emit('getEvent');
     }
+    function getStudentList(){
+        socket.emit('getStudentList');
+    }
+    socket.on('getStudentListResponse',function(data){
+        $scope.studentlist = data;
+        $scope.$apply();
+    })
     socket.on('getTimelineResponse',function(data){
         $scope.activeCourse = data;
         $scope.$apply();
@@ -151,12 +159,14 @@ app.controller('timeline', function($scope,$location,$http) {
         if(event.type=="presence")
         {
             var time;
+            var point
             if(event.config==""){
                 time = event.time
-
+                point = 1;
             }
             else {
                 time = event.config.presenceTime
+                point = event.config.point
             }
             bootbox.dialog({
                     title: "Add new course",
@@ -191,7 +201,7 @@ app.controller('timeline', function($scope,$location,$http) {
                         '<div class="form-group"> ' +
                         '<label class="col-md-4 control-label" for="name">Presence Point</label> ' +
                         '<div class="col-md-4 input-group"> ' +
-                        '<input id="point" name="point" min="0" value="1" type="number" placeholder="Give point" class="form-control input-md"> ' +
+                        '<input id="point" name="point" min="0" value="'+point+'" type="number" placeholder="Give point" class="form-control input-md"> ' +
                         '<span class="input-group-addon">' +
                         '<span class="glyphicon glyphicon-screenshot"></span>' +
                         '</div> ' +
@@ -218,10 +228,12 @@ app.controller('timeline', function($scope,$location,$http) {
                         '</div>'  +
                         '</form> </div>  </div>'+
                         '<script type="text/javascript">' +
+
                         '$(function () {' +
                         "$('.datetimepicker3').datetimepicker({" +
                         "format: 'HH:mm'" +
                         '});' +
+                        '$("#lateOpt").val("'+event.config.allowLate+'")'+
                         '});' +
                         '$(function () {' +
                         "$('.datetimepicker2').datetimepicker({" +

@@ -98,7 +98,6 @@ module.exports.addStudentToCourse = function(idStudent,idCourse,fn) {
 					);
 				}
 module.exports.removeStudentFromCourse = function(idStudent,idCourse,fn) {
-					console.log(idStudent)
 					driver.query("CALL REMOVESTUDENT('"+idStudent+"','"+idCourse+"')",function(err, rows, fields) {
 				  			if (err) throw err;
 				  			fn(rows)

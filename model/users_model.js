@@ -24,7 +24,6 @@ module.exports.auth = function(user,pass,fn) {
 				  			for(i=0;i<rows[0].length;i++)
 				  			{
 				  				if(rows[0][i].nrp==user)rows.login = true;
-				  				console.log(rows[0][i].nrp+" "+user)
 				  			}
 
 				  			fn(rows)
