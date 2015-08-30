@@ -596,7 +596,7 @@ the CSS classes below will be transitioned despite them being defined as regular
 
 .cbp3_tmtimeline > li .cbp3_tmtime span:last-child {
     font-size: 3.9em;
-    color: #CF000F;
+    color: #F22613;
 }
 
 .cbp3_tmtimeline > li:nth-child(odd) .cbp3_tmtime span:last-child {
@@ -606,7 +606,7 @@ the CSS classes below will be transitioned despite them being defined as regular
 /* Right content */
 .cbp3_tmtimeline > li .cbp3_tmlabel {
     margin: 0 0 15px 25%;
-    background: #CF000F;
+    background: #F22613;
     color: #fff;
     padding: 2em;
     font-size: 1.2em;
@@ -635,7 +635,7 @@ the CSS classes below will be transitioned despite them being defined as regular
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-right-color: #CF000F;
+    border-right-color: #F22613;
     border-width: 10px;
     top: 10px;
 }
@@ -702,7 +702,7 @@ the CSS classes below will be transitioned despite them being defined as regular
         right: auto;
         left: 20px;
         border-right-color: transparent;
-        border-bottom-color: #CF000F;
+        border-bottom-color: #F22613;
         top: -20px;
     }
 

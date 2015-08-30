@@ -82,6 +82,15 @@ app.controller('timeline', function($scope,$location,$http) {
                     '<span class="glyphicon glyphicon-text-background"></span>' +
                     '</div> ' +
                     '</div> ' +
+                    '<div class="form-group">' +
+                    '<label class="col-md-4 control-label" for="name">Event time</label> ' +
+                    '<div class="input-group date col-md-4 datetimepicker3" id="datetimepicker3">' +
+                    '<input id="time" type="text" class="form-control datetimepicker3" />' +
+                    '<span class="input-group-addon">' +
+                    '<span class="glyphicon glyphicon-calendar"></span>' +
+                    '</span>' +
+                    '</div>'  +
+                    '</div>'  +
                     '<div class="form-group"> ' +
                     '<label class="col-md-4 control-label" for="name">Event Type</label> ' +
                     '<div class="col-md-4 input-group"> ' +
@@ -93,15 +102,7 @@ app.controller('timeline', function($scope,$location,$http) {
                     '<span class="glyphicon glyphicon-list"></span>' +
                     '</div> ' +
                     '</div> ' +
-                    '<div class="form-group">' +
-                    '<label class="col-md-4 control-label" for="name">Event time</label> ' +
-                    '<div class="input-group date col-md-4 datetimepicker3" id="datetimepicker3">' +
-                    '<input id="time" type="text" class="form-control datetimepicker3" />' +
-                    '<span class="input-group-addon">' +
-                    '<span class="glyphicon glyphicon-calendar"></span>' +
-                    '</span>' +
-                    '</div>'  +
-                    '</div>'  +
+                    
                     '</form> </div>  </div>'+
                     '<script type="text/javascript">' +
                     '$(function () {' +
@@ -149,8 +150,14 @@ app.controller('timeline', function($scope,$location,$http) {
     $scope.configure = function(event){
         if(event.type=="presence")
         {
+            var time;
+            if(event.config==""){
+                time = event.time
 
-            console.log(event.datetime)
+            }
+            else {
+                time = event.config.presenceTime
+            }
             bootbox.dialog({
                     title: "Add new course",
                     message: '<div class="row">' +
@@ -203,7 +210,7 @@ app.controller('timeline', function($scope,$location,$http) {
                         '<div class="form-group">' +
                         '<label class="col-md-4 control-label" for="name">Presence time</label> ' +
                         '<div class="input-group date col-md-4 datetimepicker3" id="datetimepicker3">' +
-                        '<input id="time" type="text" class="form-control datetimepicker3" value='+event.time+'/>' +
+                        '<input id="time" type="text" class="form-control datetimepicker3" value='+time+'/>' +
                         '<span class="input-group-addon">' +
                         '<span class="glyphicon glyphicon-time"></span>' +
                         '</span>' +
