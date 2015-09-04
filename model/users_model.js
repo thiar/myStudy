@@ -30,3 +30,31 @@ module.exports.auth = function(user,pass,fn) {
 						}
 					);
 				}
+module.exports.getCourseList = function(userId,fn) {
+					driver.query("CALL findUserInCourse('"+userId+"')",function(err, rows, fields) {
+				  			if (err) throw err;
+				  			fn(rows)
+						}
+					);
+				}
+module.exports.getUser = function(userId,fn) {
+					driver.query("select nrp,name from student where nrp ='"+userId+"'",function(err, rows, fields) {
+				  			if (err) throw err;
+				  			fn(rows)
+						}
+					);
+				}
+module.exports.getEventUser = function(idCourse,nrp,fn) {
+					driver.query("CALL getEventUser('"+idCourse+"','"+nrp+"')",function(err, rows, fields) {
+				  			if (err) throw err;
+				  			fn(rows)
+						}
+					);
+				}
+module.exports.savePresence = function(idCourse,nrp,fn) {
+					driver.query("CALL getEventUser('"+idCourse+"','"+nrp+"')",function(err, rows, fields) {
+				  			if (err) throw err;
+				  			fn(rows)
+						}
+					);
+				}

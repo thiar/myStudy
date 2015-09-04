@@ -159,14 +159,21 @@ app.controller('timeline', function($scope,$location,$http) {
         if(event.type=="presence")
         {
             var time;
-            var point
+            var point;
+            var latetime;
+            var allowLate;
             if(event.config==""){
+                console.log(event)
                 time = event.time
                 point = 1;
+                latetime = event.time
+                allowLate = "yes";
             }
             else {
                 time = event.config.presenceTime
+                latetime = event.config.lateTime;
                 point = event.config.point
+                allowLate =event.config.allowLate
             }
             bootbox.dialog({
                     title: "Add new course",
@@ -226,6 +233,15 @@ app.controller('timeline', function($scope,$location,$http) {
                         '</span>' +
                         '</div>'  +
                         '</div>'  +
+                        '<div class="form-group">' +
+                        '<label class="col-md-4 control-label" for="name">Late time</label> ' +
+                        '<div class="input-group date col-md-4 datetimepicker4" id="datetimepicker4">' +
+                        '<input id="latetime" type="text" class="form-control datetimepicker4" value='+latetime+'/>' +
+                        '<span class="input-group-addon">' +
+                        '<span class="glyphicon glyphicon-time"></span>' +
+                        '</span>' +
+                        '</div>'  +
+                        '</div>'  +
                         '</form> </div>  </div>'+
                         '<script type="text/javascript">' +
 
@@ -233,7 +249,10 @@ app.controller('timeline', function($scope,$location,$http) {
                         "$('.datetimepicker3').datetimepicker({" +
                         "format: 'HH:mm'" +
                         '});' +
-                        '$("#lateOpt").val("'+event.config.allowLate+'")'+
+                        "$('.datetimepicker4').datetimepicker({" +
+                        "format: 'HH:mm'" +
+                        '});' +
+                        '$("#lateOpt").val("'+allowLate+'")'+
                         '});' +
                         '$(function () {' +
                         "$('.datetimepicker2').datetimepicker({" +
@@ -250,12 +269,14 @@ app.controller('timeline', function($scope,$location,$http) {
                                 var alias = $('#alias').val();
                                 var description = $("#description").val()
                                 var time = $('#time').val()
+                                var latetime = $('#latetime').val()
                                 var datetime = $('#datetime').val()
                                 var point = $('#point').val()
                                 var allowLate = $('#lateOpt').val()
                                 
                                 var config = {
                                     presenceTime:time,
+                                    lateTime : latetime,
                                     point:point,
                                     allowLate:allowLate
                                 }

@@ -1,5 +1,6 @@
 var socketio = require('socket.io')
 var admin_model = require('../model/admin_model');
+var users_model = require('../model/users_model');
 var moment = require('moment');
 module.exports.listen = function(server,app){
     io = socketio.listen(server)
@@ -28,6 +29,7 @@ module.exports.listen = function(server,app){
     	socket.on('changeCourse',function(data){
     		socket.handshake.session.activeCourse = data.id;
             socket.handshake.session.activeAlias = data.alias;
+            console.log(data.id)
     		socket.emit('changeCourseResponse')
     	})
     	socket.on('getTimeline',function(data){
@@ -49,7 +51,9 @@ module.exports.listen = function(server,app){
     	})
     	socket.on('updateEvent',function(data){
     		var date = moment(data.datetime,"DD/MM/YYYY HH:mm").format("YYYY-MM-DD HH:mm:ss");
-    		
+    		var config = JSON.parse(data.config);
+            config.validate =false
+            data.config = JSON.stringify(config);
     		admin_model.updateEventConfig(data.name,data.description,data.config,date,data.id,function(rows){
     			socket.emit('updateEventResponse')
     		})
@@ -74,6 +78,28 @@ module.exports.listen = function(server,app){
 
             admin_model.removeStudentFromCourse(data.nrp,socket.handshake.session.activeCourse,function(rows){
                 socket.emit('removeStudentFromCourseResponse');
+            })
+        })
+        /*user */
+        socket.on('usergetCourseList',function(data){
+            users_model.getCourseList(socket.handshake.session.userId,function(rows){
+                socket.emit('usergetCourseListResponse',rows[0])
+            })
+        })
+        socket.on('getUser',function(data){
+            users_model.getUser(socket.handshake.session.userId,function(rows){
+                socket.emit('getUserResponse',rows[0]);    
+            })
+            
+        })
+        socket.on('getEventUser',function(data){
+            users_model.getEventUser(socket.handshake.session.activeCourse,socket.handshake.session.userId,function(rows){
+                socket.emit('getEventUserResponse',rows[0])
+            })
+        })
+        socket.on('savePresence',function(data){
+            users_model.savePresence(function(rows){
+
             })
         })
     })

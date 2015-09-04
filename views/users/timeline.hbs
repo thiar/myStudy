@@ -1,11 +1,10 @@
-<script src="/javascripts/timeline.js"></script>
-<div ng-controller="timeline">
+<script src="/javascripts/usertimeline.js"></script>
+<div ng-controller="usertimeline">
 	<div class="container">
 		<div class="jumbotron" style="background:[[activeCourse.color]];color:white;margin-right:10%;">
 		  <h1>[[activeCourse.name]]</h1>
 		  <h2>[[activeCourse.alias]]</h2>
 		  <p>[[activeCourse.description]]</p>
-		  <button ng-click="studentList()" class="btn btn-default" type="button">Student List</button>
 		  <div >
 		  	<br>
 		  	<span><i class="fa fa-users fa-lg"></i>  [[studentlist.length]]</span>
@@ -23,15 +22,6 @@
 				  <div class="form-group">
 				    <h2>[[event.name]]</h2>
 				  </div>
-				  <div class="dropdown pull-right ">
-				    <button class="btn btn-default btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-bars fa-lg"></i>
-				    </button>
-				    <ul class="dropdown-menu">
-				      <li><a ng-click="configure(event)" href="#">Configure<i class="fa fa-cog fa-lg pull-right"></i></a></li>
-				      <li class="divider"></li>
-				      <li><a ng-click="deleteEvent(event)" style="color:red" href="#"><b>Delete<i class="fa fa-trash fa-lg pull-right"></i></b></a></li>
-				    </ul>
-				  </div>
 				</form>
 				<p>Type: [[event.type]]</p>
 				<p>Description: [[event.description]]</p>
@@ -41,8 +31,9 @@
 					<p>Late Time: [[event.config.lateTime]]</p>
 					<p>Allow Late : [[event.config.allowLate]]</p>
 					<p>Point: [[event.config.point]]</p>
-					<p></p>
-					<button class="btn btn-default" ng-click="detailEvent(event)">Show Detail</button>
+					<p ng-if="event.respon !== null"><b>you have completed this event</b></p>
+					<button ng-if="event.respon === null" class="btn btn-default" ng-click="doEvent(event,user)">Do Event</button>
+
 				</div>
 			</div>
 		</li>
@@ -57,15 +48,6 @@
 				  <div class="form-group">
 				    <h2>[[event.name]]</h2>
 				  </div>
-				  <div class="dropdown pull-right ">
-				    <button class="btn btn-default btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-bars fa-lg"></i>
-				    </button>
-				    <ul class="dropdown-menu">
-				      <li><a ng-click="configure(event)" href="#">Configure<i class="fa fa-cog fa-lg pull-right"></i></a></li>
-				      <li class="divider"></li>
-				      <li><a ng-click="deleteEvent(event)" style="color:red" href="#"><b>Delete<i class="fa fa-trash fa-lg pull-right"></i></b></a></li>
-				    </ul>
-				  </div>
 				</form>
 				<p>Type: [[event.type]]</p>
 				<p>Description: [[event.description]]</p>
@@ -75,8 +57,8 @@
 					<p>Late Time: [[event.config.lateTime]]</p>
 					<p>Allow Late : [[event.config.allowLate]]</p>
 					<p>Point: [[event.config.point]]</p>
-					<p></p>
-					<button class="btn btn-default" ng-click="detailEvent(event)">Show Detail</button>
+					<p ng-if="event.respon !== null"><b>you have completed this event</b></p>
+					<button ng-if="event.respon === null" class="btn btn-default" ng-click="doEvent(event,user)">Do Event</button>
 				</div>
 			</div>
 		</li>
@@ -91,15 +73,6 @@
 				  <div class="form-group">
 				    <h2>[[event.name]]</h2>
 				  </div>
-				  <div class="dropdown pull-right ">
-				    <button class="btn btn-default btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-bars fa-lg"></i>
-				    </button>
-				    <ul class="dropdown-menu">
-				      <li><a ng-click="configure(event)" href="#">Configure<i class="fa fa-cog fa-lg pull-right"></i></a></li>
-				      <li class="divider"></li>
-				      <li><a ng-click="deleteEvent(event)" style="color:red" href="#"><b>Delete<i class="fa fa-trash fa-lg pull-right"></i></b></a></li>
-				    </ul>
-				  </div>
 				</form>
 				<p>Type: [[event.type]]</p>
 				<p>Description: [[event.description]]</p>
@@ -109,19 +82,11 @@
 					<p>Late Time: [[event.config.lateTime]]</p>
 					<p>Allow Late : [[event.config.allowLate]]</p>
 					<p>Point: [[event.config.point]]</p>
-					<p></p>
-					<button class="btn btn-default" ng-click="detailEvent(event)">Show Detail</button>
+					<p ng-if="event.respon !== null"><b>you have completed this event</b></p>
+					<button ng-if="event.respon === null" class="btn btn-default" ng-click="doEvent(event,user)">Do Event</button>
 				</div>
 			</div>
 		</li>
 	</ul>
 
-	<div class="sticky-container">
-		<ul class="sticky">
-			<li class="btn-default" ng-click="addEvent()"> 
-				<img style="color:green;" width="64" height="64" title="" alt="" src="/icon/add.svg" />
-				<p>Add Event</p>
-			</li>
-		</ul>
-	</div>
 </div>

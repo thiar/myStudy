@@ -1,0 +1,25 @@
+<script src="/javascripts/userdashboard.js"></script>
+
+<div  ng-controller="userdashboard">
+	<div class="row">
+		<div class="col-md-16">
+
+            <div class="form-group has-feedback" style="width:80%;">
+        		<label for="search" class="sr-only">Search</label>
+        		<input ng-model="searchCourse"type="text" class="form-control" name="search" id="search" placeholder="search">
+          		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+        	</div>
+
+			<div class="col-md-3 container drop-shadow fold-animation" style="background-color:white;" ng-repeat="course in allCourse | filter:searchCourse">
+				<div class="margin-bottom form-inline">
+					<h4>[[course.ALIAS]]</h4>
+				</div>
+				<button class="jumbotron" ng-click="showTimeline(course)" style="margin-bottom:10%;padding-right:35%;background-color:[[course.COLOR]]">
+					<label>End In</label>
+					<h4>[[course.END]]</h4>
+					
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

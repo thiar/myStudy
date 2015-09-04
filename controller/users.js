@@ -10,13 +10,55 @@ router.get('/home', function(req, res, next) {
       isHome:true,
       reqFirst:true,
       userlogin:true,
-      activeUser:req.session.user 
+      activeUser:req.session.user,
+      isDashboard:true 
     }
   	res.render('users/home',pageVar);
   }
   else
   {
   	res.redirect('/users/login');
+  }
+
+});
+router.get('/course/timeline', function(req, res, next) {
+  if(req.session.userlogin)
+  {
+    var pageVar = { 
+      title: 'Timeline Course',
+      userlogin:true,
+      isTimeline:true,
+      reqFirst:true,
+      reqSecond:true,
+      isSecond:true,
+      activeUser:req.session.user,
+      label:req.session.activeAlias 
+    }
+    res.render('users/timeline',pageVar );
+  }
+  else
+  {
+    res.redirect('/users/login');
+  }
+  
+
+});
+router.get('/dashboard', function(req, res, next) {
+  if(req.session.userlogin)
+  {
+    var pageVar ={
+      title: 'dashboard',
+      isHome:true,
+      reqFirst:true,
+      userlogin:true,
+      activeUser:req.session.user,
+      isDashboard:true 
+    }
+    res.render('users/dashboard',pageVar);
+  }
+  else
+  {
+    res.redirect('/users/login');
   }
 
 });
@@ -39,7 +81,7 @@ router.get('/logout', function(req, res, next) {
 router.get('/login', function(req, res, next) {
   if(req.session.userlogin)
   {
-  	res.redirect('/admin/dashboard');
+  	res.redirect('/users/dashboard');
   }
   else
   {
