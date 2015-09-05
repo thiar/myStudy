@@ -51,8 +51,9 @@ module.exports.getEventUser = function(idCourse,nrp,fn) {
 						}
 					);
 				}
-module.exports.savePresence = function(idCourse,nrp,fn) {
-					driver.query("CALL getEventUser('"+idCourse+"','"+nrp+"')",function(err, rows, fields) {
+module.exports.savePresence = function(nrp,idCourse,idevent,responsedata,additionaldata,fn) {
+					var query ="CALL savePresence('"+nrp+"','"+idCourse+"','"+idevent+"','"+responsedata+"','"+additionaldata+"')";
+					driver.query(query,function(err, rows, fields) {
 				  			if (err) throw err;
 				  			fn(rows)
 						}

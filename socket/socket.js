@@ -98,8 +98,15 @@ module.exports.listen = function(server,app){
             })
         })
         socket.on('savePresence',function(data){
-            users_model.savePresence(function(rows){
-
+            var now = moment().format("YYYY-MM-DD HH:mm:ss");
+            var responseData ={
+                presenceTime : now,
+                lateTime : data.lateTime,
+                validate : false,
+                point : data.point
+            }
+            users_model.savePresence(data.studentid,socket.handshake.session.activeCourse,data.eventid,JSON.stringify(responseData),data.data,function(rows){
+                socket.emit('savePresenceResponse');
             })
         })
     })

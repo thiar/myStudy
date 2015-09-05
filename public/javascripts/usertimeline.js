@@ -58,7 +58,7 @@ app.controller('usertimeline', function($scope,$location,$http) {
         
         for(i=0;i<data.length;i++)
         {
-            console.log(data[i].respon)
+            console.log(data[i])
             if(data[i].config !="")
             {
                 data[i].config = JSON.parse(data[i].config)
@@ -67,7 +67,9 @@ app.controller('usertimeline', function($scope,$location,$http) {
         $scope.allTimeline = data;
         $scope.$apply();
     })
-    
+    socket.on('savePresenceResponse',function(data){
+        getEvent()
+    })
     
     
     $scope.doEvent = function(event,user){
@@ -125,7 +127,9 @@ app.controller('usertimeline', function($scope,$location,$http) {
                                 var course = {
                                     eventid : eventid,
                                     studentid : user.nrp,
-                                    data : data_uri
+                                    data : data_uri,
+                                    lateTime: event.config.lateTime,
+                                    point : event.config.point
                                 }
                                 console.log(course)
                                 if(studentid == "" ){
