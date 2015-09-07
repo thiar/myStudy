@@ -46,6 +46,7 @@ app.controller('timeline', function($scope,$location,$http) {
         $scope.$apply();
     })
     socket.on('getTimelineResponse',function(data){
+        console.log(data)
         $scope.activeCourse = data;
         $scope.$apply();
     })
@@ -66,6 +67,9 @@ app.controller('timeline', function($scope,$location,$http) {
     })
     socket.on('updateEventResponse',function(data){
         getEvent()
+    })
+    socket.on('eventDetailResponse',function(data){
+        window.location.href="/admin/course/timeline/event";
     })
     $scope.addEvent = function(){
         
@@ -335,7 +339,11 @@ app.controller('timeline', function($scope,$location,$http) {
         });
     }
     $scope.detailEvent = function(event){
-        alert("not implemented yet")
+        console.log(event.idevent)
+        var data = {
+            id : event.idevent
+        }
+        socket.emit('eventDetail',data);
     }
     
 

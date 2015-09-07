@@ -2,6 +2,7 @@ var socketio = require('socket.io')
 var admin_model = require('../model/admin_model');
 var users_model = require('../model/users_model');
 var moment = require('moment');
+require("moment-duration-format");
 module.exports.listen = function(server,app){
     io = socketio.listen(server)
     io.use(require("express-socket.io-session")(app.settings.session,{autoSave:true}));
@@ -80,6 +81,25 @@ module.exports.listen = function(server,app){
                 socket.emit('removeStudentFromCourseResponse');
             })
         })
+        socket.on('eventDetail',function(data){
+            socket.handshake.session.activeEvent = data.id;
+            socket.emit('eventDetailResponse')
+        })
+        socket.on('getEventDetail',function(data){
+            admin_model.getEventDetail(socket.handshake.session.activeEvent,function(rows){
+                socket.emit('getEventDetailResponse',rows[0][0]);
+            })
+        })
+        socket.on('getResponEvent',function(data){
+            admin_model.getEventResponse(socket.handshake.session.activeCourse,socket.handshake.session.activeEvent,function(rows){
+                socket.emit('getResponEventResponse',rows[0])
+            })
+        })
+        socket.on('validatePresence',function(data){
+            admin_model.validatePresence(data.nrp,socket.handshake.session.activeEvent,data.responseData,function(rows){
+
+            })
+        })
         /*user */
         socket.on('usergetCourseList',function(data){
             users_model.getCourseList(socket.handshake.session.userId,function(rows){
@@ -98,10 +118,17 @@ module.exports.listen = function(server,app){
             })
         })
         socket.on('savePresence',function(data){
-            var now = moment().format("YYYY-MM-DD HH:mm:ss");
+            var now = moment().startOf('minute'); 
+            var EventDate = moment(data.date + " " +data.lateTime,"DD-MM-YY HH:mm")
+            var lateTime = EventDate.diff(now)/60000
+
+            // console.log(moment.duration(lateTime, "minutes").format());
+            // console.log(data.date + " " + data.lateTime)
+            console.log(lateTime)
+            console.log(moment.duration(lateTime, "minutes").format())
             var responseData ={
-                presenceTime : now,
-                lateTime : data.lateTime,
+                presenceTime : moment().format("DD/MM/YY HH:mm"),
+                lateTime : moment.duration(lateTime, "minutes").format(),
                 validate : false,
                 point : data.point
             }
@@ -109,6 +136,7 @@ module.exports.listen = function(server,app){
                 socket.emit('savePresenceResponse');
             })
         })
+
     })
     return io
 }

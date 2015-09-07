@@ -1,0 +1,67 @@
+<script src="/javascripts/event.js"></script>
+<div ng-controller="event">
+	<div class="container">
+		<div class="jumbotron" style="background:[[activeCourse.color]];color:white;margin-right:10%;">
+		  <h1>[[activeCourse.name]]</h1>
+		  <h2>Alias : [[activeCourse.alias]]</h2>
+		  <p>Description: [[activeCourse.description]]</p>
+		  <div >
+		  	<span><i class="fa fa-users fa-lg"></i>  [[studentlist.length]]</span>
+
+		  </div>
+		  <br>
+		  <div class="container" >
+			<div class="jumbotron" style="margin-bottom:-2%;background:#ECF0F1;color:#6C7A89;">
+			  <p>Event: [[activeEvent.name]]  </p>
+			  <p>Description: [[activeEvent.description]]  </p>
+			  <p>Type: [[activeEvent.type]]  </p>
+			  <p>Date: [[activeEvent.datetime]]  </p>
+		    </div>
+		 </div>
+
+		</div>
+	</div>
+	<div class="col-md-12 container">
+
+			<div class="jumbotron" style="background:[[activeCourse.color]];color:white;">
+				
+				<div class="form-group has-feedback" >
+	        		<label for="search" class="sr-only">Search</label>
+	        		<input ng-model="searchResponder"type="text" class="form-control" name="search" id="search" placeholder="search">
+	          		<span style="color:black"class="glyphicon glyphicon-search form-control-feedback"></span>
+	        	</div>
+	        	<div> 
+					<span class="pull-right">student : [[responder.length]]</span>
+				</div>
+				<div >
+					<table class="table">
+					    <thead>
+					      <tr>
+					        <th>NRP</th>
+					        <th>Name</th>
+					        <th>PresenceTime</th>
+					        <th>Late Time</th>
+					        <th>Picture</th>
+					        <th>Validation</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr ng-repeat="student in responder | filter:searchResponder">
+					        <td>[[student.NRP]]</td>
+					        <td>[[student.NAME]]</td>
+
+					        <td>[[student.RESPONSEDATA.presenceTime]]</td>
+					        <td><div ng-if="student.RESPONSEDATA.lateTime.substring(0,0)=='-'">[[student.RESPONSEDATA.lateTime]]</div>
+					        	<div ng-if="student.RESPONSEDATA.lateTime.substring(0,0)!='-'">[[student.RESPONSEDATA.lateTime]]</div></td>
+					        <td>  <img style="width:80px;height:60px;"src="[[student.ADDITIONALDATA]]"></td>
+					        <td> <div class="squaredTwo">
+								<input type="checkbox" value="None" id="[[student.NRP]]" ng-model="student.RESPONSEDATA.validate" ng-click="validate(student)"/>
+								<label for="[[student.NRP]]"></label>
+							</div></td>
+					      </tr>
+					    </tbody>
+				    </table>
+				</div>
+			</div>
+		</div>
+</div>

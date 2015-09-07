@@ -131,6 +131,28 @@ router.get('/course/timeline', function(req, res, next) {
   
 
 });
+router.get('/course/timeline/event', function(req, res, next) {
+  if(req.session.login)
+  {
+    var pageVar = { 
+      title: 'Timeline Course',
+      login:true,
+      isTimeline:true,
+      reqFirst:true,
+      reqSecond:true,
+      isSecond:true,
+      activeUser:req.session.user,
+      label:req.session.activeAlias 
+    }
+    res.render('admin/event',pageVar );
+  }
+  else
+  {
+    res.redirect('/admin/login');
+  }
+  
+
+});
 
 router.post('/addCourse', function(req, res, next) {
   if(req.session.login)

@@ -122,16 +122,17 @@ app.controller('usertimeline', function($scope,$location,$http) {
                         className: "btn-success",
                         callback: function () {
                             Webcam.snap( function(data_uri) {
+                                console.log(event)
                                 var studentid = $('#studentId').val();
                                 var eventid = event.idevent
                                 var course = {
                                     eventid : eventid,
+                                    date: event.date,
                                     studentid : user.nrp,
                                     data : data_uri,
                                     lateTime: event.config.lateTime,
                                     point : event.config.point
                                 }
-                                console.log(course)
                                 if(studentid == "" ){
                                     bootbox.alert("<i style='color:red' class='fa fa-warning fa-lg'></i><b style='color:red'> Error please fill Requirement field</b>", function(result) {
                                       

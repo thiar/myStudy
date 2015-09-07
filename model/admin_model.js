@@ -1,21 +1,6 @@
 var driver = require('../config/database/driver/mysql/mysqldriver.js');
 
 /*always give fn parameter to return your data*/
-module.exports.selectDB = function(fn) {
-					driver.query("select * from db",function(err, rows, fields) {
-				  			if (err) throw err;
-				  			fn(rows)
-						}
-					);
-				}
-
-module.exports.showUser = function(fn) {
-					driver.query("select * from user",function(err, rows, fields) {
-				  			if (err) throw err;
-				  			fn(rows)
-						}
-					);
-				}
 
 module.exports.auth = function(user,pass,fn) {
 					driver.query("call auth('"+user+"','"+pass+"')",function(err, rows, fields) {
@@ -99,6 +84,27 @@ module.exports.addStudentToCourse = function(idStudent,idCourse,fn) {
 				}
 module.exports.removeStudentFromCourse = function(idStudent,idCourse,fn) {
 					driver.query("CALL REMOVESTUDENT('"+idStudent+"','"+idCourse+"')",function(err, rows, fields) {
+				  			if (err) throw err;
+				  			fn(rows)
+						}
+					);
+				}
+module.exports.getEventDetail = function(idEvent,fn) {
+					driver.query("CALL getEventDetail('"+idEvent+"')",function(err, rows, fields) {
+				  			if (err) throw err;
+				  			fn(rows)
+						}
+					);
+				}
+module.exports.getEventResponse= function(idCourse,idEvent,fn) {
+					driver.query("CALL getEventResponse('"+idCourse+"','"+idEvent+"')",function(err, rows, fields) {
+				  			if (err) throw err;
+				  			fn(rows)
+						}
+					);
+				}
+module.exports.validatePresence= function(nrp,idEvent,responseData,fn) {
+					driver.query("CALL validatePresence('"+nrp+"','"+idEvent+"','"+responseData+"')",function(err, rows, fields) {
 				  			if (err) throw err;
 				  			fn(rows)
 						}
